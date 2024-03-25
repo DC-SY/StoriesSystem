@@ -1,4 +1,4 @@
-package cn.dcsy.storiessystem;
+package cn.dcsy.stsy;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
