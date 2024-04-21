@@ -9,4 +9,6 @@ import org.springframework.http.ResponseEntity;
  */
 public interface UserService {
     ResponseEntity<BaseResponse> login(String username, String password);
+
+    ResponseEntity<BaseResponse> getUserInfo(String userId);
 }

@@ -22,10 +22,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public ResponseEntity<BaseResponse> login(String username, String password) {
         UserDemoDO userDemoDO = userDAO.getPasswordByUserName(username);
-        log.info(String.valueOf(userDemoDO));
         if (userDemoDO != null){
+            log.info(userDemoDO.toString());
             if (userDemoDO.getPassword().equals(password)){
-                BaseResponse response = new BaseResponse("登录成功", 200, "Success", "用户已登录");
+                BaseResponse response = new BaseResponse("登录成功", 200, "Success", userDemoDO);
                 return ResponseEntity.ok(response);
             } else {
                 BaseResponse response = new BaseResponse("登录失败", 404, "Error", "密码错误");
@@ -34,6 +34,20 @@ public class UserServiceImpl implements UserService {
         } else {
             BaseResponse response = new BaseResponse("登录失败", 404, "Error", "用户名不存在");
             return ResponseEntity.status(404).body(response);
+        }
+    }
+
+    @Override
+    public ResponseEntity<BaseResponse> getUserInfo(String userId) {
+        UserDemoDO getUser = userDAO.getUserById(userId);
+        if (getUser != null) {
+            return ResponseEntity.ok().body(
+                    new BaseResponse("Success", 200, "获取成功", getUser)
+            );
+        } else {
+            return ResponseEntity.status(404).body(
+                    new BaseResponse("UserNotExist", 40401, "用户不存在", null)
+            );
         }
     }
 }

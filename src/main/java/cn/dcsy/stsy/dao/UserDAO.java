@@ -21,4 +21,10 @@ public class UserDAO {
         log.info("\t> Mysql 读取");
         return userMapper.getPasswordByUsername(userName);
     }
+
+    public UserDemoDO getUserById(String userId) {
+        log.info("[DAO] 执行 getUserById 方法");
+        log.info("\t> Mysql 读取");
+        return userMapper.getUserById(Long.parseLong(userId));
+    }
 }

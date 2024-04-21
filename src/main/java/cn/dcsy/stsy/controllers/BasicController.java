@@ -24,7 +24,7 @@ public class BasicController {
     /**
      * 网站主页
      */
-//    @GetMapping("/**")
+    @GetMapping("/index")
     public ResponseEntity<BaseResponse> index() {
         log.info("访问主页");
         BaseResponse response = new BaseResponse("欢迎", 200, "Success", "这是故事管理系统主页");
@@ -38,6 +38,17 @@ public class BasicController {
     public ResponseEntity<BaseResponse> login(@RequestParam String username, @RequestParam String password) {
         log.info("尝试登录 用户名: {}", username);
         return userService.login(username, password);
+    }
+
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<BaseResponse> getUserCurrent(@PathVariable String userId) {
+        log.info("获取用户 {}", userId);
+        if (!userId.matches("^[0-9]+$")) {
+            return ResponseEntity.status(403).body(
+                    new BaseResponse("PathValueError", 40301, "参数错误", null)
+            );
+        }
+        return userService.getUserInfo(userId);
     }
 
 }

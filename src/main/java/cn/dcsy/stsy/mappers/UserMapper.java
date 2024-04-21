@@ -12,4 +12,7 @@ import org.apache.ibatis.annotations.Select;
 public interface UserMapper {
     @Select("SELECT * FROM stories_system.user_demo WHERE username = #{username}")
     UserDemoDO getPasswordByUsername(String username);
+
+    @Select("SELECT * FROM stories_system.user_demo WHERE id = #{userId}")
+    UserDemoDO getUserById(long userId);
 }
