@@ -2,6 +2,7 @@ package cn.dcsy.stsy.controllers;
 
 import cn.dcsy.stsy.service.UserService;
 import cn.dcsy.stsy.utils.BaseResponse;
+import cn.dcsy.stsy.utils.ResultUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -21,19 +22,18 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class BasicController {
     private final UserService userService;
+
     /**
      * 网站主页
      */
     @GetMapping("/index")
     public ResponseEntity<BaseResponse> index() {
-        log.info("访问主页");
-        BaseResponse response = new BaseResponse("欢迎", 200, "Success", "这是故事管理系统主页");
-        return ResponseEntity.ok(response);
+        return ResultUtil.success("访问成功");
     }
 
     /*
-    * 用户登录
-    * */
+     * 用户登录
+     * */
     @PostMapping("/login")
     public ResponseEntity<BaseResponse> login(@RequestParam String username, @RequestParam String password) {
         log.info("尝试登录 用户名: {}", username);
