@@ -2,8 +2,10 @@ package cn.dcsy.stsy.service.impl;
 
 import cn.dcsy.stsy.dao.UserDAO;
 import cn.dcsy.stsy.models.doData.UserDemoDO;
+import cn.dcsy.stsy.models.voData.BasicLoginVO;
 import cn.dcsy.stsy.service.UserService;
 import cn.dcsy.stsy.utils.BaseResponse;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -20,11 +22,11 @@ public class UserServiceImpl implements UserService {
     private final UserDAO userDAO;
 
     @Override
-    public ResponseEntity<BaseResponse> login(String username, String password) {
-        UserDemoDO userDemoDO = userDAO.getPasswordByUserName(username);
+    public ResponseEntity<BaseResponse> login(HttpServletRequest request, BasicLoginVO basicLoginVO) {
+        UserDemoDO userDemoDO = userDAO.getPasswordByUserName(basicLoginVO.getUsername());
         if (userDemoDO != null){
             log.info(userDemoDO.toString());
-            if (userDemoDO.getPassword().equals(password)){
+            if (userDemoDO.getPassword().equals(basicLoginVO.getPassword())){
                 BaseResponse response = new BaseResponse("登录成功", 200, "Success", userDemoDO);
                 return ResponseEntity.ok(response);
             } else {

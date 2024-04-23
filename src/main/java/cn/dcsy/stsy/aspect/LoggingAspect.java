@@ -25,6 +25,6 @@ public class LoggingAspect {
         Object targetObject = joinPoint.getTarget();
         Class<?> targetClass = targetObject.getClass();
 
-        log.info("[CONTROL] 获取 {} 类的 {} 方法", targetClass.getName(), methodName);
+        log.info("[CONTROLLER] 获取 {} 类的 {} 方法", targetClass.getName(), methodName);
     }
 }
