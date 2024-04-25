@@ -19,45 +19,64 @@ import java.sql.SQLSyntaxErrorException;
 public class StartupConfiguration {
 
     private static final Logger log = LoggerFactory.getLogger(StartupConfiguration.class);
-
-    @Bean
-    @Order(1)
-    public CommandLineRunner sqlPreparation(JdbcTemplate jdbcTemplate) {
-        log.info("[Runner]执行数据库初始化语句");
-        return args -> {
-            // 创建数据表
-            // MySQL默认不支持在单个语句或批次中执行多个命令，需要分割SQL语句
-            log.info("\t->创建 userdata 数据表");
-            jdbcTemplate.execute(
-                    """
-                            create table if not exists user_data
-                            (
-                                uid         bigint unsigned not null comment '用户表序号'
-                                    primary key,
-                                uuid        char(36)        not null comment '用户唯一识别码',
-                                name        varchar(100)    not null comment '用户名',
-                                gender      varchar(10)     null comment '用户性别',
-                                email       varchar(100)    not null comment '用户邮箱',
-                                password    varchar(255)    not null comment '用户密码',
-                                avatar      text            null comment '用户头像',
-                                create_at   timestamp       not null comment '用户创建时间',
-                                deleted_at  timestamp       null comment '用户删除时间',
-                                update_at   timestamp       null comment '用户更新时间',
-                                all_stories json            null comment '与用户相关的所有故事',
-                                constraint user_data_email_uindex
-                                    unique (email));
-                            """
-            );
-            try {
-                jdbcTemplate.execute("CREATE INDEX  uuid_index ON user_data (uuid)");
-            } catch (DataAccessException ex) {
-                SQLSyntaxErrorException sqlSyntaxErrorException = (SQLSyntaxErrorException) ex.getCause();
-                if (sqlSyntaxErrorException.getMessage().contains("Duplicate key name")) {
-                    log.info("\t->索引已经存在");
-                } else {
-                    log.error(String.valueOf(ex));
-                }
-            }
-        };
-    }
+//
+//    @Bean
+//    @Order(1)
+//    public CommandLineRunner sqlPreparation(JdbcTemplate jdbcTemplate) {
+//        log.info("============================================================");
+//        log.info("[Preparation] 系统进行准备检查");
+//        return args -> {
+//            log.info("[Preparation] SQL数据进行准备检查");
+//            try {
+//                log.info("\t检查用户信息数据表是否存在");
+////                if (){
+////
+////                } else {
+////
+////                }
+//
+////                jdbcTemplate.execute("""
+////                        create table if not exists stories_system.user_data
+////                        (
+////                            uid         bigint unsigned not null comment '用户表序号'
+////                                primary key,
+////                            uuid        char(36)        not null comment '用户唯一识别码',
+////                            name        varchar(100)    not null comment '用户名',
+////                            gender      varchar(10)     null comment '用户性别',
+////                            email       varchar(100)    not null comment '用户邮箱',
+////                            password    varchar(255)    not null comment '用户密码',
+////                            avatar      text            null comment '用户头像',
+////                            create_at   timestamp       not null comment '用户创建时间',
+////                            deleted_at  timestamp       null comment '用户删除时间',
+////                            update_at   timestamp       null comment '用户更新时间',
+////                            all_stories json            null comment '与用户相关的所有故事');
+////                        """);
+////                log.info("\t\t检查用户信息数据表索引是否存在");
+//
+//                log.info("\t检查故事信息数据表是否存在");
+//                jdbcTemplate.execute("CREATE INDEX uuid_index ON user_data (uuid)");
+//                log.info("\t检查用户验证数据表是否存在");
+//                jdbcTemplate.execute("""
+//                        create table code
+//                        (
+//                            cid           bigint unsigned auto_increment comment '主键'
+//                                primary key,
+//                            email         varchar(100) not null comment '邮箱',
+//                            code          char(6)      not null comment '邮箱验证码',
+//                            created_time  timestamp    not null comment '验证码创建时间',
+//                            update_time   timestamp    null comment '验证码修改时间',
+//                            times         int          null comment '验证错误次数',
+//                            modified_time timestamp    null comment '上次错误校验时间',
+//                            constraint code_user_data_email_fk
+//                                foreign key (email) references user_data (email)
+//                                    on update cascade on delete cascade
+//                        )
+//                            comment '校验表';
+//                        """);
+//            } catch (DataAccessException ex) {
+//                log.error("Database initialization failed", ex);
+//            }
+//
+//        };
+//    }
 }
