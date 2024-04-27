@@ -54,26 +54,20 @@ public class BasicController {
 
     /**
      * 用户登录
-     * */
+     */
     @PostMapping("/login")
     public ResponseEntity<BaseResponse> login(
             // 使用@RequestBody注解接受前端返回的json数据，一般我们都是使用json传递数据
             @RequestBody @Validated BasicLoginVO basicLoginVO,
             @NotNull BindingResult bindingResult,
             HttpServletRequest request
-            ) {
+    ) {
         log.info("\t->尝试登录 用户名: {}", basicLoginVO.getUsername());
         if (bindingResult.hasErrors()) {
             return ResultUtil.error("RequestBodyError", ErrorCode.REQUEST_BODY_ERROR, bindingResult.getAllErrors());
         }
         return userService.login(request, basicLoginVO);
     }
-
-
-
-
-
-
 
 
     @GetMapping("/user/{userId}")

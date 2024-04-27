@@ -1,11 +1,8 @@
-package cn.dcsy.stsy.config;
+package cn.dcsy.stsy.config.startup;
 
 import cn.dcsy.stsy.service.SQLFileExecutor;
-import cn.dcsy.stsy.service.impl.SQLFileExecutorImpl;
-import jakarta.annotation.Resource;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,18 +13,12 @@ import org.springframework.jdbc.core.JdbcTemplate;
  * @author DC_DC
  * Date: 2024/4/23/20:37
  */
+@Slf4j
 @Configuration
+@RequiredArgsConstructor
 public class StartupConfiguration {
 
     private final SQLFileExecutor sqlFileExecutor;
-
-    private static final Logger log = LoggerFactory.getLogger(StartupConfiguration.class);
-
-    @Autowired
-    public StartupConfiguration(SQLFileExecutor sqlFileExecutor) {
-        this.sqlFileExecutor = sqlFileExecutor;
-    }
-
 
     @Bean
     @Order(1)

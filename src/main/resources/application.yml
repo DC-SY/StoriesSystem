@@ -6,3 +6,8 @@ spring:
     url: jdbc:mysql://localhost:3305
     username: "root"
     password: "123456"
+  mail:
+    host: smtp.qq.com
+    port: 25
+    username: "dcsy1314@qq.com"
+    password: "lwtubhjhxplkdaei"

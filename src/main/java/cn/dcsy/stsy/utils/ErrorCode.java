@@ -20,7 +20,7 @@ public enum ErrorCode {
     REQUEST_HEADER_ERROR("RequestHeaderError", 40004, "请求头错误"),
     REQUEST_URL_ERROR("RequestUrlError", 40005, "请求地址错误"),
 
-    ;
+    SEND_MAIL_ERROR("SendMailError", 40090, "发送邮件失败");
     private final String output;
     private final Integer code;
     private final String message;
