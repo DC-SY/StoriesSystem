@@ -20,6 +20,18 @@ public enum ErrorCode {
     REQUEST_HEADER_ERROR("RequestHeaderError", 40004, "请求头错误"),
     REQUEST_URL_ERROR("RequestUrlError", 40005, "请求地址错误"),
 
+    INSERT_DATA_ERROR("InsertDataError", 40010, "插入数据失败"),
+    UPDATE_DATA_ERROR("UpdateDataError", 40011, "更新数据失败"),
+    DELETE_DATA_ERROR("DeleteDataError", 40012, "删除数据失败"),
+    SELECT_DATA_ERROR("SelectDataError", 40013, "查询数据失败"),
+
+    USER_IS_EXIST("UserIsExist", 40020, "用户已存在"),
+    USER_IS_NOT_EXIST("UserIsNotExist", 40021, "用户不存在"),
+    USER_PASSWORD_ERROR("UserPasswordError", 40022, "用户密码错误"),
+    USER_NOT_LOGIN("UserNotLogin", 40023, "用户未登录"),
+    USER_NOT_PERMISSION("UserNotPermission", 40024, "用户没有权限"),
+    USER_NOT_AUTHENTICATION("UserNotAuthentication", 40025, "用户未认证"),
+
     SEND_MAIL_ERROR("SendMailError", 40090, "发送邮件失败");
     private final String output;
     private final Integer code;

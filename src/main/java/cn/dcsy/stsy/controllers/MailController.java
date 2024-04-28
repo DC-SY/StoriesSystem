@@ -49,7 +49,6 @@ public class MailController {
         if (bindingResult.hasErrors()) {
             return ResultUtil.error("参数校验失败", ErrorCode.REQUEST_BODY_ERROR, bindingResult.getAllErrors());
         }
-        log.info("返回给服务层");
         return mailService.sendMailCode(request, mailSendCodeVO.getEmail(), mailSendCodeVO.getTemplate());
     }
 }

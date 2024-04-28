@@ -27,6 +27,29 @@ public class LoggingAspect {
 
         log.info("[CONTROLLER] 获取 {} 类的 {} 方法", targetClass.getName(), methodName);
     }
+    @Before("execution(* cn.dcsy.stsy.dao.*.*(..))")
+    public void daoAspect(JoinPoint joinPoint) {
+        Signature signature = joinPoint.getSignature();
+        String methodName = signature.getName();
+
+        Object targetObject = joinPoint.getTarget();
+        Class<?> targetClass = targetObject.getClass();
+
+        log.info("[DAO] 获取 {} 类的 {} 方法", targetClass.getName(), methodName);
+    }
+
+    @Before("execution(* cn.dcsy.stsy.mappers.*.*(..))")
+    public void mappersAspect(JoinPoint joinPoint) {
+        Signature signature = joinPoint.getSignature();
+        String methodName = signature.getName();
+
+        Object targetObject = joinPoint.getTarget();
+        Class<?> targetClass = targetObject.getClass();
+
+        log.info("[MAPPERS] 获取 {} 类的 {} 方法", targetClass.getName(), methodName);
+    }
+
+
 
 //    @Before("execution(* cn.dcsy.stsy.service.impl.*.*(..))")
 //    public void serviceAspect(JoinPoint joinPoint) {

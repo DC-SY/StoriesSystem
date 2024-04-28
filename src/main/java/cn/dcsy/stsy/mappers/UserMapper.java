@@ -10,9 +10,7 @@ import org.apache.ibatis.annotations.Select;
  */
 @Mapper
 public interface UserMapper {
-    @Select("SELECT * FROM stories_system.user_demo WHERE username = #{username}")
-    UserDemoDO getPasswordByUsername(String username);
 
-    @Select("SELECT * FROM stories_system.user_demo WHERE id = #{userId}")
-    UserDemoDO getUserById(long userId);
+    @Select("SELECT COUNT(email) > 0 FROM stories_system.user_data WHERE email = #{email}")
+    Boolean isExistsEmail(String email);
 }

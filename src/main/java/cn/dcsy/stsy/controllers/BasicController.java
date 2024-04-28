@@ -52,33 +52,33 @@ public class BasicController {
         return ResultUtil.success("注册成功");
     }
 
-    /**
-     * 用户登录
-     */
-    @PostMapping("/login")
-    public ResponseEntity<BaseResponse> login(
-            // 使用@RequestBody注解接受前端返回的json数据，一般我们都是使用json传递数据
-            @RequestBody @Validated BasicLoginVO basicLoginVO,
-            @NotNull BindingResult bindingResult,
-            HttpServletRequest request
-    ) {
-        log.info("\t->尝试登录 用户名: {}", basicLoginVO.getUsername());
-        if (bindingResult.hasErrors()) {
-            return ResultUtil.error("RequestBodyError", ErrorCode.REQUEST_BODY_ERROR, bindingResult.getAllErrors());
-        }
-        return userService.login(request, basicLoginVO);
-    }
-
-
-    @GetMapping("/user/{userId}")
-    public ResponseEntity<BaseResponse> getUserCurrent(@PathVariable String userId) {
-        log.info("获取用户 {}", userId);
-        if (!userId.matches("^[0-9]+$")) {
-            return ResponseEntity.status(403).body(
-                    new BaseResponse("PathValueError", 40301, "参数错误", null)
-            );
-        }
-        return userService.getUserInfo(userId);
-    }
+//    /**
+//     * 用户登录
+//     */
+//    @PostMapping("/login")
+//    public ResponseEntity<BaseResponse> login(
+//            // 使用@RequestBody注解接受前端返回的json数据，一般我们都是使用json传递数据
+//            @RequestBody @Validated BasicLoginVO basicLoginVO,
+//            @NotNull BindingResult bindingResult,
+//            HttpServletRequest request
+//    ) {
+//        log.info("\t->尝试登录 用户名: {}", basicLoginVO.getUsername());
+//        if (bindingResult.hasErrors()) {
+//            return ResultUtil.error("RequestBodyError", ErrorCode.REQUEST_BODY_ERROR, bindingResult.getAllErrors());
+//        }
+//        return userService.login(request, basicLoginVO);
+//    }
+//
+//
+//    @GetMapping("/user/{userId}")
+//    public ResponseEntity<BaseResponse> getUserCurrent(@PathVariable String userId) {
+//        log.info("获取用户 {}", userId);
+//        if (!userId.matches("^[0-9]+$")) {
+//            return ResponseEntity.status(403).body(
+//                    new BaseResponse("PathValueError", 40301, "参数错误", null)
+//            );
+//        }
+//        return userService.getUserInfo(userId);
+//    }
 
 }

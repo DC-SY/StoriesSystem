@@ -1,5 +1,8 @@
 package cn.dcsy.stsy.service.impl;
 
+import cn.dcsy.stsy.dao.CodeDAO;
+import cn.dcsy.stsy.dao.UserDAO;
+import cn.dcsy.stsy.models.doData.MailCodeDO;
 import cn.dcsy.stsy.service.MailService;
 import cn.dcsy.stsy.utils.BaseResponse;
 import cn.dcsy.stsy.utils.ErrorCode;
@@ -35,6 +38,40 @@ public class MailServiceImpl implements MailService {
     private final JavaMailSender javaMailSender;
     // 模板引擎
     private final TemplateEngine templateEngine;
+    private final CodeDAO codeDAO;
+    private final UserDAO userDAO;
+
+    /**
+     * 发送邮件验证码
+     *
+     * @param request  HttpServletRequest对象
+     * @param email    接收邮件的邮箱地址
+     * @param template 邮件模板名称
+     * @return 返回发送结果，成功返回带有成功信息的ResponseEntity，失败返回带有错误代码的ResponseEntity
+     */
+    @Override
+    public ResponseEntity<BaseResponse> sendMailCode(HttpServletRequest request, String email, String template) {
+        // 生成验证码并准备数据，然后发送邮件
+        final StringBuilder stringBuilder = getStringBuilder();
+        final HashMap<String, Object> prepareData = getStringObjectHashMap(email, template, stringBuilder);
+        // 用户注册账号,需要考虑邮箱重复
+        if (userDAO.isEmailExist(email)){
+            return ResultUtil.error(ErrorCode.USER_IS_EXIST);
+        }
+        MailCodeDO mailCodeDO = new MailCodeDO();
+        mailCodeDO
+                .setCode(stringBuilder.toString())
+                .setEmail(email);
+        // 将注册邮箱以及验证码数据进行存入mysql
+        if (!codeDAO.insertCode(mailCodeDO)) {
+            return ResultUtil.error(ErrorCode.INSERT_DATA_ERROR);
+        }
+        Boolean boolean1 = this.sendMail(email, prepareData, "./mail/" + template + ".html");
+        if (!boolean1){
+            return ResultUtil.error(ErrorCode.SEND_MAIL_ERROR);
+        }
+        return ResultUtil.success("发送成功");
+    }
 
     @Value("${spring.mail.username}")
     // 发送邮件的地址
@@ -84,32 +121,6 @@ public class MailServiceImpl implements MailService {
             default -> throw new RuntimeException("模板不存在");
         }
         return prepareData;
-    }
-
-    /**
-     * 发送邮件验证码
-     *
-     * @param request  HttpServletRequest对象
-     * @param email    接收邮件的邮箱地址
-     * @param template 邮件模板名称
-     * @return 返回发送结果，成功返回带有成功信息的ResponseEntity，失败返回带有错误代码的ResponseEntity
-     */
-    @Override
-    public ResponseEntity<BaseResponse> sendMailCode(HttpServletRequest request, String email, String template) {
-        log.info("进入服务层");
-        // 生成验证码并准备数据，然后发送邮件
-        final StringBuilder stringBuilder = getStringBuilder();
-        log.info("构造验证码");
-        log.info(String.valueOf(stringBuilder));
-        final HashMap<String, Object> prepareData = getStringObjectHashMap(email, template, stringBuilder);
-        log.info("准备数据");
-        log.info(String.valueOf(prepareData));
-        Boolean boolean1 = this.sendMail(email, prepareData, "./mail/" + template + ".html");
-        if (boolean1) {
-            return ResultUtil.success("发送成功");
-        } else {
-            return ResultUtil.error(ErrorCode.SEND_MAIL_ERROR);
-        }
     }
 
     /**

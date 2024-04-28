@@ -15,16 +15,10 @@ import org.springframework.stereotype.Repository;
 @RequiredArgsConstructor
 public class UserDAO {
     private final UserMapper userMapper;
-
-    public UserDemoDO getPasswordByUserName(String userName) {
-        log.info("[DAO] 执行 getPasswordByUserName 方法");
-        log.info("\t> Mysql 读取");
-        return userMapper.getPasswordByUsername(userName);
+    public Boolean isEmailExist(String email) {
+        return userMapper.isExistsEmail(email);
     }
 
-    public UserDemoDO getUserById(String userId) {
-        log.info("[DAO] 执行 getUserById 方法");
-        log.info("\t> Mysql 读取");
-        return userMapper.getUserById(Long.parseLong(userId));
-    }
+
+
 }
