@@ -8,6 +8,6 @@ import org.apache.ibatis.annotations.Insert;
  * Date: 2024/4/28/16:09
  */
 public interface CodeMapper {
-    @Insert("INSERT INTO stories_system.code (email, code, created_time, update_time) VALUES (#{email}, #{code}, NOW(), NOW())")
+    @Insert("INSERT INTO stories_system.code (email, code, created_time, expired_time) VALUES (#{email}, #{code}, current_time(), DATE_ADD(current_time(), INTERVAL 10 MINUTE))")
     Boolean insertCode(MailCodeDO mailCodeDO);
 }

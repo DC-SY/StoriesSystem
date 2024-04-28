@@ -41,6 +41,10 @@ public class MailServiceImpl implements MailService {
     private final CodeDAO codeDAO;
     private final UserDAO userDAO;
 
+    @Value("${spring.mail.username}")
+    // 发送邮件的地址
+    private String from;
+
     /**
      * 发送邮件验证码
      *
@@ -72,10 +76,6 @@ public class MailServiceImpl implements MailService {
         }
         return ResultUtil.success("发送成功");
     }
-
-    @Value("${spring.mail.username}")
-    // 发送邮件的地址
-    private String from;
 
     /**
      * 生成6位验证码
@@ -147,7 +147,6 @@ public class MailServiceImpl implements MailService {
      */
     @Override
     public Boolean sendMail(@NotNull String email, @NotNull HashMap<String, Object> prepareData, @NotNull String template) {
-        log.info("准备发送邮件");
         try {
             MimeMessage message = javaMailSender.createMimeMessage();
             Context context = new Context();
