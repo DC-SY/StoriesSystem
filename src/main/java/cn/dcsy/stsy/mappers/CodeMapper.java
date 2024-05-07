@@ -3,6 +3,7 @@ package cn.dcsy.stsy.mappers;
 import cn.dcsy.stsy.models.doData.MailCodeDO;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Select;
 
 /**
  * @author DC_DC
@@ -15,4 +16,6 @@ public interface CodeMapper {
     @Delete("DELETE FROM stories_system.code WHERE expired_time < NOW()")
     void cleanCode();
 
+    @Select("SELECT code FROM stories_system.code WHERE email = #{email} AND expired_time > NOW()")
+    String getCode(String email);
 }

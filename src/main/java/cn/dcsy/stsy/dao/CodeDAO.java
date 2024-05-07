@@ -19,4 +19,8 @@ public class CodeDAO {
     public Boolean insertCode(MailCodeDO mailCodeDO){
         return codeMapper.insertCode(mailCodeDO);
     }
+
+    public String getCode(String email) {
+        return codeMapper.getCode(email);
+    }
 }

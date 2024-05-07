@@ -64,7 +64,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
-<!--        spring-boot-starter-thymeleaf和org.thymeleaf有区别-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+        <!--        spring-boot-starter-thymeleaf和org.thymeleaf有区别-->
 
     </dependencies>
 

@@ -27,6 +27,7 @@ public class LoggingAspect {
 
         log.info("[CONTROLLER] 获取 {} 类的 {} 方法", targetClass.getName(), methodName);
     }
+
     @Before("execution(* cn.dcsy.stsy.dao.*.*(..))")
     public void daoAspect(JoinPoint joinPoint) {
         Signature signature = joinPoint.getSignature();
@@ -44,11 +45,11 @@ public class LoggingAspect {
         String methodName = signature.getName();
 
         Object targetObject = joinPoint.getTarget();
-        Class<?> targetClass = targetObject.getClass();
+        // 这里如果获取类名,只能获得代理名
+        Class<?> targetClass = targetObject.getClass().getInterfaces()[0];
 
-        log.info("[MAPPERS] 获取 {} 类的 {} 方法", targetClass.getName(), methodName);
+        log.info("[MAPPERS] 获取 {} 接口的 {} 方法", targetClass.getName(), methodName);
     }
-
 
 
 //    @Before("execution(* cn.dcsy.stsy.service.impl.*.*(..))")

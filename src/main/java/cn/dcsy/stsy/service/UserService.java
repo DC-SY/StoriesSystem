@@ -1,6 +1,7 @@
 package cn.dcsy.stsy.service;
 
 import cn.dcsy.stsy.models.voData.BasicLoginVO;
+import cn.dcsy.stsy.models.voData.BasicRegisterVO;
 import cn.dcsy.stsy.utils.BaseResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
@@ -10,7 +11,6 @@ import org.springframework.http.ResponseEntity;
  * Date: 2024/4/16/21:51
  */
 public interface UserService {
-//    ResponseEntity<BaseResponse> login(HttpServletRequest request, BasicLoginVO basicLoginVO);
-//
-//    ResponseEntity<BaseResponse> getUserInfo(String userId);
+
+    ResponseEntity<BaseResponse> register(HttpServletRequest request, BasicRegisterVO basicRegisterVO);
 }

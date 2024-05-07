@@ -19,6 +19,7 @@ src/main/java/cn/dcsy/stsy/config/MailConfig.java
 *.iws
 *.iml
 *.ipr
+*application.yml
 
 ### NetBeans ###
 /nbproject/private/

@@ -32,7 +32,11 @@ public enum ErrorCode {
     USER_NOT_PERMISSION("UserNotPermission", 40024, "用户没有权限"),
     USER_NOT_AUTHENTICATION("UserNotAuthentication", 40025, "用户未认证"),
 
-    SEND_MAIL_ERROR("SendMailError", 40090, "发送邮件失败");
+    EMAIL_EXIST("EmailExist", 40030, "邮箱已存在"),
+    EMAIL_CODE_ERROR("EmailCodeError", 40031, "邮箱验证码错误"),
+    SEND_MAIL_ERROR("SendMailError", 40090, "发送邮件失败"),
+
+    SERVER_INTERNAL_ERROR("ServerInternalError", 50000, "服务器内部错误");
     private final String output;
     private final Integer code;
     private final String message;
