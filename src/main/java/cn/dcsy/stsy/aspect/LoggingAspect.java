@@ -52,14 +52,14 @@ public class LoggingAspect {
     }
 
 
-//    @Before("execution(* cn.dcsy.stsy.service.impl.*.*(..))")
-//    public void serviceAspect(JoinPoint joinPoint) {
-//        Signature signature = joinPoint.getSignature();
-//        String methodName = signature.getName();
-//
-//        Object targetObject = joinPoint.getTarget();
-//        Class<?> targetClass = targetObject.getClass();
-//
-//        log.info("[SERVICE] 获取 {} 类的 {} 方法", targetClass.getName(), methodName);
-//    }
+    @Before("execution(* cn.dcsy.stsy.service.impl.*.*(..))")
+    public void serviceAspect(JoinPoint joinPoint) {
+        Signature signature = joinPoint.getSignature();
+        String methodName = signature.getName();
+
+        Object targetObject = joinPoint.getTarget();
+        Class<?> targetClass = targetObject.getClass();
+
+        log.info("[SERVICES] 获取 {} 类的 {} 方法", targetClass.getName(), methodName);
+    }
 }
