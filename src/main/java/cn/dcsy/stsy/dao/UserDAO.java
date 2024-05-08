@@ -2,7 +2,6 @@ package cn.dcsy.stsy.dao;
 
 import cn.dcsy.stsy.mappers.UserMapper;
 import cn.dcsy.stsy.models.doData.UserDataDO;
-import cn.dcsy.stsy.models.voData.BasicRegisterVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
@@ -41,4 +40,7 @@ public class UserDAO {
         return userMapper.getUserByEmail(email);
     }
 
+    public UserDataDO getUserByName(String name) {
+        return userMapper.getUserByName(name);
+    }
 }

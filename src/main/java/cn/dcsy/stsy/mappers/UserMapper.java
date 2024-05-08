@@ -1,7 +1,6 @@
 package cn.dcsy.stsy.mappers;
 
 import cn.dcsy.stsy.models.doData.UserDataDO;
-import cn.dcsy.stsy.models.voData.BasicRegisterVO;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -24,4 +23,7 @@ public interface UserMapper {
 
     @Select("SELECT * FROM stories_system.user_data WHERE email = #{email}")
     UserDataDO getUserByEmail(String email);
+
+    @Select("SELECT * FROM stories_system.user_data WHERE name = #{name}")
+    UserDataDO getUserByName(String name);
 }

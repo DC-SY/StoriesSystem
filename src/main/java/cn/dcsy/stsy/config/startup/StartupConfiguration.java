@@ -28,8 +28,7 @@ public class StartupConfiguration {
         log.info("============================================================");
         TimeZone tz = TimeZone.getDefault();
         log.info("[Preparation] 当前时区为: {}", tz.getDisplayName());
-        log.info("[Preparation] 配置数据库时区");
-//        jdbcTemplate.execute("SET GLOBAL time_zone = 'Asia/Shanghai';");
+        log.info("[Preparation] 配置数据库时区: Asia/Shanghai");
         log.info("[Preparation] 系统进行数据库完整性检查");
         return args -> {
             if (!(checkTableExists(jdbcTemplate, "user_data") &&
