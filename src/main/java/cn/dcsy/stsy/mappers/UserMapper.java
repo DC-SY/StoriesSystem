@@ -14,8 +14,14 @@ import org.apache.ibatis.annotations.Select;
 public interface UserMapper {
 
     @Select("SELECT COUNT(email) > 0 FROM stories_system.user_data WHERE email = #{email}")
-    Boolean isExistsEmail(String email);
+    boolean isExistsEmail(String email);
+
+    @Select("SELECT COUNT(name) > 0 FROM stories_system.user_data WHERE name = #{name}")
+    boolean isNameExist(String name);
 
     @Insert("INSERT INTO stories_system.user_data(uuid, name, gender, email, password, create_at) VALUES (#{uuid}, #{name}, #{gender}, #{email}, #{password}, NOW())")
     boolean insertUser(UserDataDO userDataDO);
+
+    @Select("SELECT * FROM stories_system.user_data WHERE email = #{email}")
+    UserDataDO getUserByEmail(String email);
 }

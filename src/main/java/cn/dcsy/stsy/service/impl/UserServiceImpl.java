@@ -3,6 +3,7 @@ package cn.dcsy.stsy.service.impl;
 import cn.dcsy.stsy.dao.CodeDAO;
 import cn.dcsy.stsy.dao.UserDAO;
 import cn.dcsy.stsy.models.doData.UserDataDO;
+import cn.dcsy.stsy.models.voData.BasicLoginVO;
 import cn.dcsy.stsy.models.voData.BasicRegisterVO;
 import cn.dcsy.stsy.service.UserService;
 import cn.dcsy.stsy.utils.BaseResponse;
@@ -35,8 +36,12 @@ public class UserServiceImpl implements UserService {
         if (userDAO.isEmailExist(basicRegisterVO.getEmail())) {
             return ResultUtil.error(ErrorCode.EMAIL_EXIST);
         }
+        // 校验用户名是否唯一
+        if (userDAO.isNameExist(basicRegisterVO.getName())){
+            return ResultUtil.error("用户名重复", ErrorCode.USER_IS_EXIST, null);
+        }
         // 校验验证码是否匹配
-        if (!(codeDAO.getCode(basicRegisterVO.getEmail()).equals(basicRegisterVO.getCode()))){
+        if (!(basicRegisterVO.getCode().equals(codeDAO.getCode(basicRegisterVO.getEmail())))){
             return ResultUtil.error(ErrorCode.EMAIL_CODE_ERROR);
         }
         UserDataDO userDataDO = new UserDataDO();
@@ -48,6 +53,20 @@ public class UserServiceImpl implements UserService {
             return ResultUtil.error("用户注册失败", ErrorCode.INSERT_DATA_ERROR, null);
         }
         return ResultUtil.success("注册成功");
+    }
+
+    @Override
+    public ResponseEntity<BaseResponse> login(HttpServletRequest request, BasicLoginVO basicLoginVO) {
+        // 校验用户是否存在
+        UserDataDO userDataDO = userDAO.getUserByEmail(basicLoginVO.getName());
+        if (userDataDO == null){
+            return ResultUtil.error(ErrorCode.USER_IS_NOT_EXIST);
+        }
+        // 校验密码是否匹配
+        if (!userDataDO.getPassword().equals(basicLoginVO.getPassword())){
+            return ResultUtil.error(ErrorCode.USER_PASSWORD_ERROR);
+        }
+        return ResultUtil.success("登录成功");
     }
 
 }

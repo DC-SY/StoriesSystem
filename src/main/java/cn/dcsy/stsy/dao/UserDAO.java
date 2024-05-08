@@ -23,13 +23,22 @@ public class UserDAO {
      * @param email 需要检查的电子邮件地址，类型为String。
      * @return 返回一个Boolean值，如果电子邮件已存在，则返回true；否则返回false。
      */
-    public Boolean isEmailExist(String email) {
+    public boolean isEmailExist(String email) {
         // 通过userMapper接口查询数据库中是否存在指定的email
         return userMapper.isExistsEmail(email);
     }
 
 
+    public boolean isNameExist(String name) {
+        return userMapper.isNameExist(name);
+    }
+
     public boolean insertUser(UserDataDO userDataDO) {
         return userMapper.insertUser(userDataDO);
     }
+
+    public UserDataDO getUserByEmail(String email) {
+        return userMapper.getUserByEmail(email);
+    }
+
 }

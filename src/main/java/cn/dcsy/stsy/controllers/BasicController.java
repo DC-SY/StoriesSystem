@@ -1,6 +1,7 @@
 package cn.dcsy.stsy.controllers;
 
 import cn.dcsy.stsy.dao.UserDAO;
+import cn.dcsy.stsy.models.voData.BasicLoginVO;
 import cn.dcsy.stsy.models.voData.BasicRegisterVO;
 import cn.dcsy.stsy.service.UserService;
 import cn.dcsy.stsy.utils.BaseResponse;
@@ -52,6 +53,19 @@ public class BasicController {
         }
         // 给到业务层进行逻辑处理
         return userService.register(request, basicRegisterVO);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<BaseResponse> login(
+            @RequestBody @Validated BasicLoginVO basicLoginVO,
+            @NotNull BindingResult bindingResult,
+            HttpServletRequest request
+    ) {
+        log.info("\t->尝试登录 用户: {}", basicLoginVO.getName());
+        if (bindingResult.hasErrors()) {
+            return ResultUtil.error("RequestBodyError", ErrorCode.REQUEST_BODY_ERROR, bindingResult.getAllErrors());
+        }
+        return userService.login(request, basicLoginVO);
     }
 
 }

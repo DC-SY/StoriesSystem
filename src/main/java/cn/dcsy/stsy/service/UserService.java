@@ -13,4 +13,6 @@ import org.springframework.http.ResponseEntity;
 public interface UserService {
 
     ResponseEntity<BaseResponse> register(HttpServletRequest request, BasicRegisterVO basicRegisterVO);
+
+    ResponseEntity<BaseResponse> login(HttpServletRequest request, BasicLoginVO basicLoginVO);
 }
