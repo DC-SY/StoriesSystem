@@ -5,6 +5,7 @@ import cn.dcsy.stsy.utils.BaseResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * @author DC_DC

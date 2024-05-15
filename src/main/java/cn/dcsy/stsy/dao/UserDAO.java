@@ -27,7 +27,6 @@ public class UserDAO {
         return userMapper.isExistsEmail(email);
     }
 
-
     public boolean isNameExist(String name) {
         return userMapper.isNameExist(name);
     }
@@ -42,5 +41,13 @@ public class UserDAO {
 
     public UserDataDO getUserByName(String name) {
         return userMapper.getUserByName(name);
+    }
+
+    public UserDataDO getUserByUuid(String uuid) {
+        return userMapper.getUserByUuid(uuid);
+    }
+
+    public boolean isUuidExist(String uuid) {
+        return userMapper.isUuidExist(uuid);
     }
 }

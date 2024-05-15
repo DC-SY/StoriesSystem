@@ -17,8 +17,8 @@ public class CleanCodeImpl implements CleanCode {
 
 
     @Override
-    @Scheduled(cron = "0 */1 * * * ?")
-//    @Scheduled(cron = "0 0/10 * * * ?")
+//    @Scheduled(cron = "0 */1 * * * ?")
+    @Scheduled(cron = "0 0/10 * * * ?")
     public void scheduleCleanCode() {
         codeMapper.cleanCode();
     }

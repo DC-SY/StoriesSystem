@@ -67,5 +67,4 @@ public class BasicController {
         }
         return userService.login(request, basicLoginVO);
     }
-
 }

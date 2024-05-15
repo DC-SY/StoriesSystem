@@ -18,7 +18,7 @@ public class PublicException {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<BaseResponse> exceptionHandler(Exception e) {
-        log.error("系统异常", e);
+        log.error("[Exception] 系统异常", e);
         return ResultUtil.error(e.getMessage(), ErrorCode.SERVER_INTERNAL_ERROR, null);
     }
 }

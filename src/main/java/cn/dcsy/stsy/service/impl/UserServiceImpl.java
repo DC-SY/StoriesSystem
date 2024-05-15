@@ -65,7 +65,8 @@ public class UserServiceImpl implements UserService {
         if (!StringUtil.passwordCheck(basicLoginVO.getPassword(), userDataDO.getPassword())) {
             return ResultUtil.error(ErrorCode.USER_PASSWORD_ERROR);
         }
-        return ResultUtil.success("登录成功");
+        request.getSession().setAttribute("user", basicLoginVO);
+        return ResultUtil.success("登录成功", userDataDO.getUuid());
     }
 
 }
