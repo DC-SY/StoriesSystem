@@ -13,7 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 /**
  * @author DC_DC
@@ -32,7 +33,7 @@ public class StoriesController {
             @RequestBody @Validated StoriesAddVO storiesAddVO,
             @NotNull BindingResult bindingResult,
             HttpServletRequest request
-    ) {
+    ) throws IOException {
         // 添加故事
         if (bindingResult.hasErrors()) {
             return ResultUtil.error("RequestBodyError", ErrorCode.REQUEST_BODY_ERROR, bindingResult.getAllErrors());

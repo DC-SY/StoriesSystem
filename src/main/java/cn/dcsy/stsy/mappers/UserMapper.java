@@ -19,7 +19,7 @@ public interface UserMapper {
     boolean isNameExist(String name);
 
     @Select("SELECT COUNT(uuid) = 1 FROM stories_system.user_data WHERE uuid = #{uuid}")
-    boolean isUuidExist(String uuid);
+    Boolean isUuidExist(String uuid);
 
     @Insert("INSERT INTO stories_system.user_data(uuid, name, gender, email, password, create_at) VALUES (#{uuid}, #{name}, #{gender}, #{email}, #{password}, NOW())")
     boolean insertUser(UserDataDO userDataDO);

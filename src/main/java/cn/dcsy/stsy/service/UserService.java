@@ -1,18 +1,17 @@
 package cn.dcsy.stsy.service;
 
-import cn.dcsy.stsy.models.voData.BasicLoginVO;
-import cn.dcsy.stsy.models.voData.BasicRegisterVO;
 import cn.dcsy.stsy.utils.BaseResponse;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
 
 /**
  * @author DC_DC
- * Date: 2024/4/16/21:51
+ * Date: 2024/5/16/16:11
  */
 public interface UserService {
-
-    ResponseEntity<BaseResponse> register(HttpServletRequest request, BasicRegisterVO basicRegisterVO);
-
-    ResponseEntity<BaseResponse> login(HttpServletRequest request, BasicLoginVO basicLoginVO);
+    /**
+     * 获取当前用户信息
+     *
+     * @param userUuid 用户uuid
+     */
+    ResponseEntity<BaseResponse> getUserCurrent(String userUuid);
 }

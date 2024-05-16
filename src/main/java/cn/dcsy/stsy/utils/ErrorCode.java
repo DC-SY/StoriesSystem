@@ -39,6 +39,7 @@ public enum ErrorCode {
     SEND_MAIL_ERROR("SendMailError", 40900, "发送邮件失败"),
     PHOTO_FORMAT_ERROR("PhotoFormatError", 40901, "图片格式错误"),
     PHOTO_DECODE_ERROR("PhotoDecodeError", 40902, "图片解码错误"),
+    PHOTO_UPLOAD_ERROR("PhotoUploadError", 40903, "图片上传错误"),
 
     SERVER_INTERNAL_ERROR("ServerInternalError", 50000, "服务器内部错误");
 

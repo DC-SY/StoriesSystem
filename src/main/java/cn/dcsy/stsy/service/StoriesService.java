@@ -4,8 +4,8 @@ import cn.dcsy.stsy.models.voData.StoriesAddVO;
 import cn.dcsy.stsy.utils.BaseResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 /**
  * @author DC_DC
@@ -13,5 +13,5 @@ import org.springframework.web.multipart.MultipartFile;
  */
 public interface StoriesService {
     // 添加故事
-    ResponseEntity<BaseResponse> addStories(HttpServletRequest request, StoriesAddVO storiesVO);
+    ResponseEntity<BaseResponse> addStories(HttpServletRequest request, StoriesAddVO storiesVO) throws IOException;
 }

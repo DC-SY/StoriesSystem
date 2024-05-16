@@ -79,11 +79,12 @@ public class StringUtil {
      * @throws IOException 如果解码失败。
      */
     public static List<BufferedImage> decodeBase64Images(List<String> base64Images) throws IOException {
-        List<BufferedImage> images = new ArrayList<>();
-        for (String base64Image : base64Images) {
-            byte[] imageBytes = Base64.getDecoder().decode(base64Image);
-            images.add(ImageIO.read(new ByteArrayInputStream(imageBytes)));
-        }
-        return images;
+    List<BufferedImage> images = new ArrayList<>();
+    for (String base64Image : base64Images) {
+        String base64Data = base64Image.split(",")[1];
+        byte[] imageBytes = Base64.getDecoder().decode(base64Data);
+        images.add(ImageIO.read(new ByteArrayInputStream(imageBytes)));
     }
+    return images;
+}
 }

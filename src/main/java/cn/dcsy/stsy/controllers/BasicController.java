@@ -1,9 +1,8 @@
 package cn.dcsy.stsy.controllers;
 
-import cn.dcsy.stsy.dao.UserDAO;
 import cn.dcsy.stsy.models.voData.BasicLoginVO;
 import cn.dcsy.stsy.models.voData.BasicRegisterVO;
-import cn.dcsy.stsy.service.UserService;
+import cn.dcsy.stsy.service.BasicService;
 import cn.dcsy.stsy.utils.BaseResponse;
 import cn.dcsy.stsy.utils.ErrorCode;
 import cn.dcsy.stsy.utils.ResultUtil;
@@ -29,8 +28,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/basic")
 @RequiredArgsConstructor
 public class BasicController {
-    private final UserService userService;
-    private final UserDAO userDAO;
+    private final BasicService userService;
 
     /**
      * 网站主页
@@ -67,4 +65,5 @@ public class BasicController {
         }
         return userService.login(request, basicLoginVO);
     }
+
 }

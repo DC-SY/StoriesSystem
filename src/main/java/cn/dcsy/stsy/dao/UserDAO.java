@@ -47,7 +47,7 @@ public class UserDAO {
         return userMapper.getUserByUuid(uuid);
     }
 
-    public boolean isUuidExist(String uuid) {
+    public Boolean isUuidExist(String uuid) {
         return userMapper.isUuidExist(uuid);
     }
 }
