@@ -12,15 +12,35 @@ import java.util.Map;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
+import org.springframework.beans.factory.annotation.Value;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
 import org.apache.commons.codec.binary.Hex;
+import org.springframework.stereotype.Component;
 
 /**
  * @author 32841
  */
+@Component
 @Slf4j
 public class DogeUtil {
+    private static String accessKey;
+    private static String secretKey;
+
+    @Value("${doge.AccessKey}")
+    public void setAccessKey(String accessKey) {
+        DogeUtil.accessKey = accessKey;
+    }
+
+    @Value("${doge.SecretKey}")
+    public void setSecretKey(String secretKey) {
+        DogeUtil.secretKey = secretKey;
+    }
+    // 上传文件到多吉云
+    public static Boolean uploadUtil(){
+        return true;
+    }
+
     // 普通 API 请使用这个方法
     public static JSONObject dogeAPIGet(String apiPath, Map<String, String> params) {
         StringBuilder sb = new StringBuilder();
@@ -66,8 +86,7 @@ public class DogeUtil {
 
         // 这里替换为你的多吉云永久 AccessKey 和 SecretKey，可在用户中心 - 密钥管理中查看
         // 请勿在客户端暴露 AccessKey 和 SecretKey，那样恶意用户将获得账号完全控制权
-        String accessKey = "";
-        String secretKey = "";
+
 
         String signStr = apiPath + "\n" + paramsText;
         String sign;
