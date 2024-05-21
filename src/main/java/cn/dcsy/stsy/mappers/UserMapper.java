@@ -25,9 +25,6 @@ public interface UserMapper {
     @Insert("INSERT INTO stories_system.user_data(uuid, name, gender, email, password, create_at) VALUES (#{uuid}, #{name}, #{gender}, #{email}, #{password}, NOW())")
     boolean insertUser(UserDataDO userDataDO);
 
-    @Select("SELECT * FROM stories_system.user_data WHERE email = #{email}")
-    UserDataDO getUserByEmail(String email);
-
     @Select("SELECT * FROM stories_system.user_data WHERE name = #{name}")
     UserDataDO getUserByName(String name);
 
@@ -36,4 +33,5 @@ public interface UserMapper {
 
     @Update("UPDATE stories_system.user_data SET all_stories = #{allStories} WHERE uuid = #{uuid}")
     Boolean updateUserStories(UserDataDO userDataDO);
+
 }

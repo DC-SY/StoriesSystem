@@ -35,10 +35,6 @@ public class UserDAO {
         return userMapper.insertUser(userDataDO);
     }
 
-    public UserDataDO getUserByEmail(String email) {
-        return userMapper.getUserByEmail(email);
-    }
-
     public UserDataDO getUserByName(String name) {
         return userMapper.getUserByName(name);
     }
@@ -54,4 +50,6 @@ public class UserDAO {
     public Boolean updateUserStories(UserDataDO userDataDO) {
         return userMapper.updateUserStories(userDataDO);
     }
+
+
 }

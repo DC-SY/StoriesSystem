@@ -41,6 +41,9 @@ public class StoriesController {
         return storiesService.addStories(request, storiesAddVO);
     }
 
+    /**
+     * 获取与自己相关的所有故事
+    * */
     @GetMapping("/get")
     public ResponseEntity<BaseResponse> getStories(HttpServletRequest request) {
         return storiesService.getStories(request);

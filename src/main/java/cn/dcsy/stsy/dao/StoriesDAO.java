@@ -20,8 +20,8 @@ public class StoriesDAO {
         return storiesMapper.addStories(userStoriesDO);
     }
 
-    public UserStoriesDO getStoryByAuid(String auid) {
-        log.info(auid);
-        return storiesMapper.getStoryByAuid(auid);
+
+    public UserStoriesDO getStoriesBySsid(String ssid) {
+        return storiesMapper.getStoriesBySsid(ssid);
     }
 }

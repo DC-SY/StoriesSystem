@@ -112,6 +112,25 @@ public class StoriesServiceImpl implements StoriesService {
         if (!userDAO.isUuidExist(uuid)) {
             return ResultUtil.error(ErrorCode.USER_IS_NOT_EXIST);
         }
-        return null;
+        // 获取用户表中的all_stories字段, 该字段存储了用户参与的所有故事的ssid
+        UserDataDO userDataDO = userDAO.getUserByUuid(uuid);
+        String allStories = userDataDO.getAllStories();
+        if (allStories == null) {
+            return ResultUtil.success("没有故事");
+        }
+        // 解析all_stories字段, 获取到所有故事的ssid
+        Type type = new TypeToken<List<String>>() {
+        }.getType();
+        List<String> ssidList = new Gson().fromJson(allStories, type);
+        List<UserStoriesDO> userStoriesDOList = new ArrayList<>();
+        for (String ssid : ssidList) {
+            // 根据ssid获取故事信息
+            UserStoriesDO userStoriesDO = storiesDAO.getStoriesBySsid(ssid);
+            if (userStoriesDO == null) {
+                return ResultUtil.error(ErrorCode.SELECT_DATA_ERROR);
+            }
+            userStoriesDOList.add(userStoriesDO);
+        }
+        return ResultUtil.success("用户所有故事已经准备完毕", userStoriesDOList);
     }
 }
