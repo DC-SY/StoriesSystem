@@ -16,4 +16,6 @@ public interface StoriesService {
     ResponseEntity<BaseResponse> addStories(HttpServletRequest request, StoriesAddVO storiesVO) throws IOException;
 
     ResponseEntity<BaseResponse> getStories(HttpServletRequest request);
+
+    ResponseEntity<BaseResponse> deleteStories(HttpServletRequest request);
 }

@@ -1,6 +1,7 @@
 package cn.dcsy.stsy.mappers;
 
 import cn.dcsy.stsy.models.doData.UserStoriesDO;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -16,4 +17,7 @@ public interface StoriesMapper {
 
     @Select("SELECT * FROM stories_system.user_stories WHERE ssid = #{ssid}")
     UserStoriesDO getStoriesBySsid(String ssid);
+
+    @Delete("DELETE FROM stories_system.user_stories WHERE ssid = #{ssid}")
+    Boolean deleteStories(String ssid);
 }

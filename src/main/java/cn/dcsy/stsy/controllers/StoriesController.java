@@ -48,4 +48,9 @@ public class StoriesController {
     public ResponseEntity<BaseResponse> getStories(HttpServletRequest request) {
         return storiesService.getStories(request);
     }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<BaseResponse> deleteStories(HttpServletRequest request) {
+        return storiesService.deleteStories(request);
+    }
 }

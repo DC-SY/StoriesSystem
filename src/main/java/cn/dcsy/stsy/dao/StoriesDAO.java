@@ -16,6 +16,10 @@ import org.springframework.stereotype.Repository;
 public class StoriesDAO {
     private final StoriesMapper storiesMapper;
 
+    public Boolean deleteStories(String ssid) {
+        return storiesMapper.deleteStories(ssid);
+    }
+
     public boolean addStories(UserStoriesDO userStoriesDO) {
         return storiesMapper.addStories(userStoriesDO);
     }

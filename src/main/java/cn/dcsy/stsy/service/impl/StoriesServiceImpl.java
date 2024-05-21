@@ -122,6 +122,9 @@ public class StoriesServiceImpl implements StoriesService {
         Type type = new TypeToken<List<String>>() {
         }.getType();
         List<String> ssidList = new Gson().fromJson(allStories, type);
+        if (ssidList.isEmpty()) {
+            return ResultUtil.success("没有故事");
+        }
         List<UserStoriesDO> userStoriesDOList = new ArrayList<>();
         for (String ssid : ssidList) {
             // 根据ssid获取故事信息
@@ -132,5 +135,40 @@ public class StoriesServiceImpl implements StoriesService {
             userStoriesDOList.add(userStoriesDO);
         }
         return ResultUtil.success("用户所有故事已经准备完毕", userStoriesDOList);
+    }
+
+    @Override
+    public ResponseEntity<BaseResponse> deleteStories(HttpServletRequest request) {
+        // 获取用户的uuid, 校验是否有效
+        String auid = request.getParameter("uuid");
+        if (!userDAO.isUuidExist(auid)) {
+            return ResultUtil.error(ErrorCode.USER_IS_NOT_EXIST);
+        }
+        // 获取故事ssid
+        String ssid = request.getParameter("ssid");
+        // 根据故事ssid获取到所有参与者uuid
+        UserStoriesDO userStoriesDO = storiesDAO.getStoriesBySsid(ssid);
+        // 所有参与者uuid
+        String uuidJson = userStoriesDO.getUuid();
+        Type type = new TypeToken<List<String>>() {}.getType();
+        List<String> uuidList = new Gson().fromJson(uuidJson, type);
+        if (uuidList == null) {
+            uuidList = new ArrayList<>();
+        }
+        uuidList.add(auid);
+        // 更新每一位参与者和创建者的all_stories字段
+        for (String uuid : uuidList) {
+            UserDataDO userDataDO = userDAO.getUserByUuid(uuid);
+            List<String> allStories = new Gson().fromJson(userDataDO.getAllStories(), type);
+            allStories.remove(ssid);
+            userDataDO.setAllStories(new Gson().toJson(allStories));
+            if (!userDAO.updateUserStories(userDataDO)) {
+                return ResultUtil.error(ErrorCode.UPDATE_DATA_ERROR);
+            }
+        }
+        if (!storiesDAO.deleteStories(ssid)){
+            return ResultUtil.error(ErrorCode.DELETE_DATA_ERROR);
+        }
+        return ResultUtil.success("故事删除成功");
     }
 }
