@@ -40,4 +40,9 @@ public class StoriesController {
         }
         return storiesService.addStories(request, storiesAddVO);
     }
+
+    @GetMapping("/get")
+    public ResponseEntity<BaseResponse> getStories(HttpServletRequest request) {
+        return storiesService.getStories(request);
+    }
 }

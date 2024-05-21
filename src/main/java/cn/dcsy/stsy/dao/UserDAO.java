@@ -50,4 +50,8 @@ public class UserDAO {
     public Boolean isUuidExist(String uuid) {
         return userMapper.isUuidExist(uuid);
     }
+
+    public Boolean updateUserStories(UserDataDO userDataDO) {
+        return userMapper.updateUserStories(userDataDO);
+    }
 }

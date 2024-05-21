@@ -14,4 +14,6 @@ import java.io.IOException;
 public interface StoriesService {
     // 添加故事
     ResponseEntity<BaseResponse> addStories(HttpServletRequest request, StoriesAddVO storiesVO) throws IOException;
+
+    ResponseEntity<BaseResponse> getStories(HttpServletRequest request);
 }

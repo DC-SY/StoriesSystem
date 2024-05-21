@@ -4,6 +4,7 @@ import cn.dcsy.stsy.models.doData.UserDataDO;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 /**
  * @author DC_DC
@@ -32,4 +33,7 @@ public interface UserMapper {
 
     @Select("SELECT * FROM stories_system.user_data WHERE uuid = #{uuid}")
     UserDataDO getUserByUuid(String uuid);
+
+    @Update("UPDATE stories_system.user_data SET all_stories = #{allStories} WHERE uuid = #{uuid}")
+    Boolean updateUserStories(UserDataDO userDataDO);
 }
