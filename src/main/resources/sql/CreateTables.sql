@@ -3,7 +3,7 @@ use stories_system;
 
 create table IF NOT EXISTS user_data
 (
-    uid         bigint unsigned not null comment '用户表序号'
+    uid         bigint unsigned auto_increment not null comment '用户表序号'
         primary key,
     uuid        char(36)        not null comment '用户唯一识别码',
     name        varchar(100)    not null comment '用户名',
@@ -14,9 +14,7 @@ create table IF NOT EXISTS user_data
     create_at   timestamp       not null comment '用户创建时间',
     deleted_at  timestamp       null comment '用户删除时间',
     update_at   timestamp       null comment '用户更新时间',
-    all_stories json            null comment '与用户相关的所有故事',
-    constraint user_data_email_uindex
-        unique (email)
+    all_stories json            null comment '与用户相关的所有故事'
 );
 
 create index uuid_index
@@ -24,7 +22,7 @@ create index uuid_index
 
 create table user_stories
 (
-    sid        bigint unsigned not null comment '故事表序号'
+    sid        bigint unsigned auto_increment not null comment '故事表序号'
         primary key,
     ssid       char(36)        not null comment '故事唯一识别码',
     auid       char(36)        not null comment '故事创建者唯一识别码',
@@ -52,11 +50,6 @@ create table code
     email         varchar(100) not null comment '邮箱',
     code          char(6)      not null comment '邮箱验证码',
     created_time  timestamp    not null comment '验证码创建时间',
-    update_time   timestamp    null comment '验证码修改时间',
-    times         int          null comment '验证错误次数',
-    modified_time timestamp    null comment '上次错误校验时间',
-    constraint code_user_data_email_fk
-        foreign key (email) references user_data (email)
-            on update cascade on delete cascade
+    expired_time   timestamp    null comment '验证码过期时间'
 )
     comment '校验表';

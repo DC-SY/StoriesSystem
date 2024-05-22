@@ -54,7 +54,7 @@ public class StoriesServiceImpl implements StoriesService {
             for (String participant : storiesVO.getParticipants()) {
                 UserDataDO userDataDO = userDAO.getUserByName(participant);
                 if (userDataDO == null) {
-                    return ResultUtil.error(ErrorCode.USER_IS_NOT_EXIST);
+                    return ResultUtil.error("故事参与者不存在", ErrorCode.USER_IS_NOT_EXIST, null);
                 }
                 uuidList.add(userDataDO.getUuid());
             }
@@ -148,9 +148,13 @@ public class StoriesServiceImpl implements StoriesService {
         String ssid = request.getParameter("ssid");
         // 根据故事ssid获取到所有参与者uuid
         UserStoriesDO userStoriesDO = storiesDAO.getStoriesBySsid(ssid);
+        if (userStoriesDO == null) {
+            return ResultUtil.error("故事不存在", ErrorCode.SELECT_DATA_ERROR, null);
+        }
         // 所有参与者uuid
         String uuidJson = userStoriesDO.getUuid();
-        Type type = new TypeToken<List<String>>() {}.getType();
+        Type type = new TypeToken<List<String>>() {
+        }.getType();
         List<String> uuidList = new Gson().fromJson(uuidJson, type);
         if (uuidList == null) {
             uuidList = new ArrayList<>();
@@ -166,9 +170,52 @@ public class StoriesServiceImpl implements StoriesService {
                 return ResultUtil.error(ErrorCode.UPDATE_DATA_ERROR);
             }
         }
-        if (!storiesDAO.deleteStories(ssid)){
+        // 删除云储存的图片列表
+        // 获取图片url列表
+        String photos = userStoriesDO.getPhotos();
+        if (!DogeUtil.deleteUtil(photos)) {
+            return ResultUtil.error(ErrorCode.PHOTO_DELETE_ERROR);
+        }
+        // 数据库删除故事信息
+        if (!storiesDAO.deleteStories(ssid)) {
             return ResultUtil.error(ErrorCode.DELETE_DATA_ERROR);
         }
         return ResultUtil.success("故事删除成功");
+    }
+
+    @Override
+    public ResponseEntity<BaseResponse> editStories(HttpServletRequest request, StoriesAddVO storiesVO) {
+//        // 获取用户的uuid, 校验是否有效
+//        String auid = request.getParameter("uuid");
+//        if (!userDAO.isUuidExist(auid)) {
+//            return ResultUtil.error(ErrorCode.USER_IS_NOT_EXIST);
+//        }
+//        // 获取故事ssid
+//        String ssid = request.getParameter("ssid");
+//        // 根据故事ssid获取到该故事所有信息
+//        UserStoriesDO userStoriesDO = storiesDAO.getStoriesBySsid(ssid);
+//        if (userStoriesDO == null) {
+//            return ResultUtil.error("故事不存在", ErrorCode.SELECT_DATA_ERROR, null);
+//        }
+//        if (!auid.equals(userStoriesDO.getAuid())) {
+//            return ResultUtil.error("无权修改他人故事", ErrorCode.USER_NOT_PERMISSION, null);
+//        }
+//        // 更新故事信息
+//        BeanUtils.copyProperties(storiesVO, userStoriesDO);
+//        // 如果有参与者,校验参与者用户名是否有效
+//        List<String> uuidList = new ArrayList<>();
+//        if (storiesVO.getParticipants() != null) {
+//            // 校验参与者用户名是否有效
+//            for (String participant : storiesVO.getParticipants()) {
+//                UserDataDO userDataDO = userDAO.getUserByName(participant);
+//                if (userDataDO == null) {
+//                    return ResultUtil.error(ErrorCode.USER_IS_NOT_EXIST);
+//                }
+//                uuidList.add(userDataDO.getUuid());
+//            }
+//            userStoriesDO.setUuid(new Gson().toJson(uuidList));
+//        }
+//        // 如果有图片,校验图片是否为base64格式
+        return null;
     }
 }

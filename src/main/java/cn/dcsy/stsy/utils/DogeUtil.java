@@ -1,5 +1,7 @@
 package cn.dcsy.stsy.utils;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.binary.Hex;
 import org.json.JSONObject;
@@ -10,14 +12,14 @@ import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.S3Client;
-import software.amazon.awssdk.services.s3.model.PutObjectRequest;
-import software.amazon.awssdk.services.s3.model.PutObjectResponse;
+import software.amazon.awssdk.services.s3.model.*;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
@@ -171,6 +173,41 @@ public class DogeUtil {
             System.err.println("{\"error\":\"网络错误：" + conn.getResponseCode() + "\"}");
         }
         return null;
+    }
+
+    public static Boolean deleteUtil(String photos) {
+        Type type = new TypeToken<List<String>>() {
+        }.getType();
+        List<String> photoList = new Gson().fromJson(photos, type);
+        ArrayList<ObjectIdentifier> keys = new ArrayList<>();
+        for (String photo : photoList) {
+            keys.add(ObjectIdentifier.builder().key(photo.replace("https://i-cdn.dc-sy.cn/", "")).build());
+        }
+//        keys.add(ObjectIdentifier.builder().key("abc/123.txt").build());
+//        keys.add(ObjectIdentifier.builder().key("abc/abc.txt").build()); // 添加多个可以删除多个文件
+
+        Delete del = Delete.builder().objects(keys).build();
+        DeleteObjectsRequest multiObjectDeleteRequest = DeleteObjectsRequest.builder()
+                .bucket("s-sh-9611-syst-1258813047")
+                .delete(del)
+                .build();
+        JSONObject body = new JSONObject();
+        body.put("channel", "OSS_FULL");
+        // 要操作的存储空间名称，注意不是 s3Bucket 值，也可以设置为 *
+        body.append("scopes", "syst");
+        // 初始化S3 SDK
+        JSONObject api = dogeAPIGet("/auth/tmp_token.json", body);
+        JSONObject credentials = api.getJSONObject("Credentials");
+        AwsSessionCredentials awsCreds = AwsSessionCredentials.create(credentials.getString("accessKeyId"), credentials.getString("secretAccessKey"), credentials.getString("sessionToken"));
+        S3Client s3 = S3Client.builder()
+                .credentialsProvider(StaticCredentialsProvider.create(awsCreds))
+                .region(Region.of("automatic"))
+                // 修改为多吉云控制台存储空间 SDK 参数中的 s3Endpoint
+                .endpointOverride(URI.create("https://cos.ap-shanghai.myqcloud.com"))
+                .build();
+        s3.deleteObjects(multiObjectDeleteRequest);
+
+        return true;
     }
 
     @Value("${doge.AccessKey}")

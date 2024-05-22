@@ -43,14 +43,34 @@ public class StoriesController {
 
     /**
      * 获取与自己相关的所有故事
-    * */
+     */
     @GetMapping("/get")
     public ResponseEntity<BaseResponse> getStories(HttpServletRequest request) {
         return storiesService.getStories(request);
     }
 
+    /**
+     * 删除故事
+     */
     @DeleteMapping("/delete")
     public ResponseEntity<BaseResponse> deleteStories(HttpServletRequest request) {
         return storiesService.deleteStories(request);
+    }
+
+    /**
+     * 编辑故事
+     */
+    @PutMapping("/edit")
+    public ResponseEntity<BaseResponse> editStories(
+            @RequestBody @Validated StoriesAddVO storiesAddVO,
+            @NotNull BindingResult bindingResult,
+            HttpServletRequest request
+    ) throws IOException {
+        // 添加故事
+        if (bindingResult.hasErrors()) {
+            return ResultUtil.error("RequestBodyError", ErrorCode.REQUEST_BODY_ERROR, bindingResult.getAllErrors());
+        }
+        return ResultUtil.success("暂未开发");
+//        return storiesService.editStories(request, storiesAddVO);
     }
 }

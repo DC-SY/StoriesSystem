@@ -18,4 +18,6 @@ public interface StoriesService {
     ResponseEntity<BaseResponse> getStories(HttpServletRequest request);
 
     ResponseEntity<BaseResponse> deleteStories(HttpServletRequest request);
+
+    ResponseEntity<BaseResponse> editStories(HttpServletRequest request, StoriesAddVO storiesVO);
 }
