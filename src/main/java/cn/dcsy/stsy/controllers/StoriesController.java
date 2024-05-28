@@ -44,7 +44,7 @@ public class StoriesController {
     /**
      * 获取与自己相关的所有故事
      */
-    @GetMapping("/get")
+    @GetMapping("/getAll")
     public ResponseEntity<BaseResponse> getStories(HttpServletRequest request) {
         return storiesService.getStories(request);
     }
@@ -70,7 +70,6 @@ public class StoriesController {
         if (bindingResult.hasErrors()) {
             return ResultUtil.error("RequestBodyError", ErrorCode.REQUEST_BODY_ERROR, bindingResult.getAllErrors());
         }
-        return ResultUtil.success("暂未开发");
-//        return storiesService.editStories(request, storiesAddVO);
+        return storiesService.editStories(request, storiesAddVO);
     }
 }

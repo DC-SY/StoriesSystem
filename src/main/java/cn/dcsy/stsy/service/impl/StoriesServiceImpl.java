@@ -5,6 +5,7 @@ import cn.dcsy.stsy.dao.UserDAO;
 import cn.dcsy.stsy.models.doData.UserDataDO;
 import cn.dcsy.stsy.models.doData.UserStoriesDO;
 import cn.dcsy.stsy.models.voData.StoriesAddVO;
+import cn.dcsy.stsy.models.voData.UserStoriesVO;
 import cn.dcsy.stsy.service.StoriesService;
 import cn.dcsy.stsy.utils.*;
 import com.google.gson.Gson;
@@ -108,7 +109,7 @@ public class StoriesServiceImpl implements StoriesService {
     @Override
     public ResponseEntity<BaseResponse> getStories(HttpServletRequest request) {
         // 获取用户的uuid, 校验是否有效
-        String uuid = request.getParameter("uuid");
+        String uuid = request.getHeader("X-USER-UUID");
         if (!userDAO.isUuidExist(uuid)) {
             return ResultUtil.error(ErrorCode.USER_IS_NOT_EXIST);
         }
@@ -125,16 +126,19 @@ public class StoriesServiceImpl implements StoriesService {
         if (ssidList.isEmpty()) {
             return ResultUtil.success("没有故事");
         }
-        List<UserStoriesDO> userStoriesDOList = new ArrayList<>();
+        List<UserStoriesVO> userStoriesList = new ArrayList<>();
         for (String ssid : ssidList) {
             // 根据ssid获取故事信息
             UserStoriesDO userStoriesDO = storiesDAO.getStoriesBySsid(ssid);
             if (userStoriesDO == null) {
                 return ResultUtil.error(ErrorCode.SELECT_DATA_ERROR);
             }
-            userStoriesDOList.add(userStoriesDO);
+            UserStoriesVO userStoriesVO = new UserStoriesVO();
+            BeanUtils.copyProperties(userStoriesDO, userStoriesVO);
+            userStoriesVO.setPhotos(new Gson().fromJson(userStoriesDO.getPhotos(), type));
+            userStoriesList.add(userStoriesVO);
         }
-        return ResultUtil.success("用户所有故事已经准备完毕", userStoriesDOList);
+        return ResultUtil.success("用户所有故事已经准备完毕", userStoriesList);
     }
 
     @Override
